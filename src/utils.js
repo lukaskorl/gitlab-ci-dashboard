@@ -42,10 +42,11 @@ export const getTopItemByName = (list) => {
     return
   }
 
+  const versionRegex = /(\d+\.)?(\d+\.)?(\*|\d+)/gm
   const newest = sort
     .desc(
       list.map(item => {
-        const ver = (/(\d+\.)?(\d+\.)?(\*|\d+)/gm.exec(item.name) || []).shift() || item.name
+        const ver = (versionRegex.exec(item.name) || []).shift() || item.name
         if ((ver.match(/\./g) || []).length < 2) {
           return `${ver}.0`
         }
@@ -56,7 +57,7 @@ export const getTopItemByName = (list) => {
 
   return list
     .filter(item => {
-      const ver = ((/(\d+\.)?(\d+\.)?(\*|\d+)/gm.exec(item.name) || []).shift() || item.name)
+      const ver = ((versionRegex.exec(item.name) || []).shift() || item.name)
       return ver === newest || `${ver}.0` === newest
     })
     .shift()
