@@ -42,7 +42,7 @@ export const getTopItemByName = (list) => {
     return
   }
 
-  const versionRegex = /(\d+\.)?(\d+\.)?(\*|\d+)/gm
+  const versionRegex = /(\d+\.)?(\d+\.)?(\d+)?(-\*|\d+)/gm
   const newest = sort
     .desc(
       list.map(item => {
