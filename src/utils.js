@@ -41,5 +41,23 @@ export const getTopItemByName = (list) => {
   if (!Array.isArray(list) || list.length === 0) {
     return
   }
-  return sort.desc(list).shift()
+
+  const newest = sort
+    .desc(
+      list.map(item => {
+        const ver = (/(\d+\.)?(\d+\.)?(\*|\d+)/gm.exec(item.name) || []).shift() || item.name
+        if ((ver.match(/\./g) || []).length < 2) {
+          return `${ver}.0`
+        }
+        return ver
+      })
+    )
+    .shift()
+
+  return list
+    .filter(item => {
+      const ver = ((/(\d+\.)?(\d+\.)?(\*|\d+)/gm.exec(item.name) || []).shift() || item.name)
+      return ver === newest || `${ver}.0` === newest
+    })
+    .shift()
 }
